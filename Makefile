@@ -17,10 +17,12 @@ clean:
 .PHONY: build-image
 build-image:
 	$(call check_defined,VERSION)
+	$(call check_defined,DEPLOY_TO)
 	@docker build -t $(IMAGE_NAME):$(VERSION) \
 	--label "app.name=$(APP_NAME)" \
 	--label "app.version=$(VERSION)" \
 	--build-arg APP_NAME=$(APP_NAME) \
+	--build-arg BUILD=$(DEPLOY_TO) \
 	--pull --cache-from=$(IMAGE_NAME):latest \
 	-f Dockerfile .
 
