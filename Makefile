@@ -27,6 +27,7 @@ build-image: ## build docker image
 	--label "app.name=$(APP_NAME)" \
 	--label "app.version=$(VERSION)" \
 	--build-arg DEPLOY_TO=$(DEPLOY_TO) \
+	--platform linux/amd64 \
 	--pull --cache-from=$(IMAGE_NAME):latest \
 	-f Dockerfile .
 
