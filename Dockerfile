@@ -2,7 +2,7 @@ FROM node:alpine AS builder-f2e
 
 WORKDIR /app
 
-COPY ./package.json ./
+COPY ./package.json ./yarn.lock ./
 RUN yarn install
 
 ARG DEPLOY_TO=uat
@@ -11,7 +11,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 
 COPY ./public ./public
 COPY ./src ./src
-COPY ./env.${DEPLOY_TO} ./.env
+COPY ./.env.${DEPLOY_TO} ./.env
 RUN yarn build
 
 FROM nginx:alpine

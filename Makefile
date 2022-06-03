@@ -26,8 +26,7 @@ build-image: ## build docker image
 	@docker build -t $(IMAGE_NAME):$(VERSION) \
 	--label "app.name=$(APP_NAME)" \
 	--label "app.version=$(VERSION)" \
-	--build-arg APP_NAME=$(APP_NAME) \
-	--build-arg BUILD=$(DEPLOY_TO) \
+	--build-arg DEPLOY_TO=$(DEPLOY_TO) \
 	--pull --cache-from=$(IMAGE_NAME):latest \
 	-f Dockerfile .
 
@@ -52,5 +51,5 @@ deploy: ## deploy application
 	$(call check_defined,DEPLOY_TO)
 	@helm --namespace $(NS) \
 	upgrade --install $(APP_NAME) $(HELM_REPO_NAME)/$(APP_NAME) \
-	--values ./deployments/values/$(DEPLOY_TO)/$(APP_NAME).yaml \
+	--values ./deployments/configs/$(DEPLOY_TO)/$(APP_NAME).yaml \
 	--set image.tag=$(VERSION)
