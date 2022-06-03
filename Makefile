@@ -9,13 +9,18 @@ HELM_REPO_NAME = blackhorseya
 
 check_defined = $(if $(value $1),,$(error Undefined $1))
 
+.PHONY: help
+help: ## show help
+	@grep -hE '^[ a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-17s\033[0m %s\n", $$1, $$2}'
+
 .PHONY: clean
-clean:
+clean: ## remove artifacts
 	@rm -rf build
 	@echo Successfully removed artifacts
 
 .PHONY: build-image
-build-image:
+build-image: ## build docker image
 	$(call check_defined,VERSION)
 	$(call check_defined,DEPLOY_TO)
 	@docker build -t $(IMAGE_NAME):$(VERSION) \
@@ -27,22 +32,22 @@ build-image:
 	-f Dockerfile .
 
 .PHONY: list-images
-list-images:
+list-images: ## list image
 	@docker images --filter=label=app.name=$(APP_NAME)
 
 .PHONY: prune-images
-prune-images:
+prune-images: ## prune images
 	@docker rmi -f `docker images --filter=label=app.name=$(APP_NAME) -q`
 
 .PHONY: push-image
-push-image:
+push-image: ## publish image
 	$(call check_defined,VERSION)
 	@docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):latest
 	@docker push $(IMAGE_NAME):$(VERSION)
 	@docker push $(IMAGE_NAME):latest
 
 .PHONY: deploy
-deploy:
+deploy: ## deploy application
 	$(call check_defined,VERSION)
 	$(call check_defined,DEPLOY_TO)
 	@helm --namespace $(NS) \
