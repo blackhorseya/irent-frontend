@@ -1,4 +1,4 @@
-import {Route, Routes} from 'react-router';
+import {Route, Switch} from "react-router";
 import React from 'react';
 import {
     AppBar, Button, IconButton, Toolbar, Typography,
@@ -43,11 +43,11 @@ class CustomRoutes extends React.Component {
                 </Toolbar>
             </AppBar>
 
-            <Routes>
+            <Switch>
                 <Route exact path={routeConstants.Root} component={App}/>
                 <Route path={routeConstants.Login} component={Login}/>
                 <Route render={() => (<div>No Match</div>)}/>
-            </Routes>
+            </Switch>
         </React.Fragment>);
     }
 }
