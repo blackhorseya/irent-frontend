@@ -17,13 +17,13 @@ function list(token) {
   return fetch(`${endpoint}/api/v1/bookings`, opts).then(handleResponse);
 }
 
-function book(id, projID, token) {
+function book(id, projID, token, userID) {
   const opts = {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify({id: id, project_id: projID}),
+    body: JSON.stringify({id: id, project_id: projID, user_id: userID, circularly: true}),
   };
 
   return fetch(`${endpoint}/api/v1/bookings`, opts).then(handleResponse);

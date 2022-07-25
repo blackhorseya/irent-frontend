@@ -34,11 +34,11 @@ function list(token) {
   }
 }
 
-function book(id, projID, token) {
+function book(id, projID, token, userID) {
   return dispatch => {
     dispatch(request());
 
-    bookingService.book(id, projID, token).then(
+    bookingService.book(id, projID, token, userID).then(
         resp => {
           dispatch(success(resp.data));
           dispatch(bookingActions.list(localStorage.getItem('token')));
