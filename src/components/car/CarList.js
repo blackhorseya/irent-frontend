@@ -58,11 +58,11 @@ class CarList extends React.Component {
     window.open(url, '_blank');
   }
 
-  handleBook(id, projID) {
+  handleBook(id, projID, userID) {
     const token = localStorage.getItem('token');
 
     if (token !== null) {
-      this.props.book(id, projID, token);
+      this.props.book(id, projID, token, userID);
     }
   }
 
@@ -110,7 +110,7 @@ class CarList extends React.Component {
                               <ListItemSecondaryAction>
                                 <IconButton edge="end"
                                             onClick={() => this.handleBook(item.id,
-                                                item.project_id)}>
+                                                item.project_id, user.data.id)}>
                                   <Schedule/>
                                 </IconButton>
                               </ListItemSecondaryAction>
