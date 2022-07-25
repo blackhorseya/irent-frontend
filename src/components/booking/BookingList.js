@@ -49,7 +49,7 @@ class BookingList extends React.Component {
         const {booking} = this.props;
 
         function formatTime(s) {
-            return moment(new Date(s / 1000 / 1000)).format('YYYY-MM-DD HH:mm');
+            return moment(new Date(s)).format('YYYY/MM/DD HH:mm')
         }
 
         return (<Paper style={{padding: 20}}>
@@ -70,7 +70,7 @@ class BookingList extends React.Component {
                     {booking.loading === false && booking.data && (<List>
                         {booking.data.map((item, _) => <ListItem key={item.no}>
                             <ListItemText id={item.no} primary={item.car_id}/>
-                            <ListItemText id={item.no} primary={item.stop_pick_at}/>
+                            <ListItemText id={item.no} primary={formatTime(item.stop_pick_at)}/>
                             <ListItemIcon>
                                 <IconButton
                                     onClick={() => this.handleOpenMaps(item.car_latitude, item.car_longitude)}>
